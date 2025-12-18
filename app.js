@@ -184,22 +184,24 @@ document
   .getElementById("back-from-shop")
   .addEventListener("click", () => showScreen("dashboard"));
 
-// Покупки (Stars)
+// Покупка через Telegram Stars
 document.querySelectorAll(".buy-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     const item = btn.dataset.item;
     const price = parseInt(btn.dataset.price);
-    // В реальном проекте: Telegram.WebApp.openInvoice()
-    Telegram.WebApp.showPopup({
-      title: "✨ Покупка",
-      message: `Покупка за ${price} ⭐ будет доступна после подключения Stars.`,
-      buttons: [{ type: "close" }],
-    });
-    // Пример разблокировки (для демо — бесплатно):
-    if (item === "avatar-sunglasses") userData.avatar = "🕶️";
-    if (item === "avatar-rocket") userData.avatar = "🚀";
-    localStorage.setItem("splytData", JSON.stringify(userData));
-    updateUI();
+
+    // Генерируем payload (опционально, для будущего использования)
+    const payload = JSON.stringify({ item });
+
+    // Получаем username бота (подставляем твой, если initData не содержит)
+    const botUsername =
+      Telegram.WebApp.initDataUnsafe?.username || "splytsy_bot";
+
+    // Формируем корректный URL (убираем лишние пробелы!)
+    const url = `https://t.me/${botUsername}?startapp=buy_${item}`;
+
+    // Открываем бота с параметром покупки
+    Telegram.WebApp.openTelegramLink(url);
   });
 });
 
@@ -213,3 +215,58 @@ if (!localStorage.getItem("splytOnboarded")) {
   showScreen("dashboard");
   updateUI();
 }
+// Навигация по вкладкам
+function switchTab(tabName) {
+  // Убираем active у всех кнопок
+  document
+    .querySelectorAll(".tab-btn")
+    .forEach((btn) => btn.classList.remove("active"));
+  // Добавляем active текущей
+  document
+    .querySelector(`.tab-btn[data-tab="${tabName}"]`)
+    .classList.add("active");
+
+  // Показываем нужный экран
+  showScreen("dashboard"); // всегда возвращаемся на дашборд
+
+  // Открываем форму/экран в зависимости от вкладки
+  if (tabName === "income") {
+    showScreen("add-income");
+  } else if (tabName === "expense") {
+    showScreen("add-expense");
+  } else if (tabName === "goal") {
+    showScreen("set-goal");
+  } else if (tabName === "profile") {
+    updateUI(); // обновить ачивки
+    showScreen("profile");
+  } else if (tabName === "shop") {
+    showScreen("shop");
+  }
+}
+
+// Назначаем обработчики на вкладки
+document.querySelectorAll(".tab-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const tab = btn.dataset.tab;
+    switchTab(tab);
+  });
+});
+
+// Обратные кнопки — возвращают на dashboard с активной вкладкой
+function setupBackButton(id, tab) {
+  const btn = document.getElementById(id);
+  if (btn) {
+    btn.addEventListener("click", () => {
+      showScreen("dashboard");
+      switchTab(tab);
+    });
+  }
+}
+
+// Настраиваем "назад" для каждого экрана
+setupBackButton("back-from-income", "income");
+setupBackButton("back-from-expense", "expense");
+setupBackButton("back-from-goal", "goal");
+setupBackButton("back-from-profile", "profile");
+setupBackButton("back-from-shop", "shop");
+setupBackButton("back-from-learn", "spycard"); // если оставим spycard отдельно
