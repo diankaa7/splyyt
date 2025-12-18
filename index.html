@@ -116,30 +116,28 @@
             <span class="tab-label">Магазин</span>
           </button>
         </div>
+      </div>
 
-        <!-- Формы (доход, трата, цель, обучение) -->
-        <div class="screen hidden" data-screen="add-income">
-          <h2>➕ Новый доход</h2>
-          <input type="text" id="income-source" placeholder="Откуда деньги?" />
-          <input type="number" id="income-amount" placeholder="Сумма (₽)" />
-          <button class="btn-primary" id="save-income-btn">Сохранить</button>
-          <button class="btn-text" id="back-from-income">← Назад</button>
-        </div>
+      <!-- Формы -->
+      <div class="screen hidden" data-screen="add-income">
+        <h2>➕ Новый доход</h2>
+        <input type="text" id="income-source" placeholder="Откуда деньги?" />
+        <input type="number" id="income-amount" placeholder="Сумма (₽)" />
+        <button class="btn-primary" id="save-income-btn">Сохранить</button>
+        <button class="btn-text" id="back-from-income">← Назад</button>
+      </div>
 
-        <div class="screen hidden" data-screen="add-expense">
-          <h2>➖ Новая трата</h2>
-          <input type="text" id="expense-desc" placeholder="Что купил?" />
-          <input type="number" id="expense-amount" placeholder="Сумма (₽)" />
-          <select id="expense-category" aria-label="Категория траты">
-            <option value="entertainment">🎮 Развлечения</option>
-            <option value="style">👟 Стиль</option>
-            <option value="food">☕ Кофе с друзьями</option>
-            <option value="education">📚 Образование</option>
-            <option value="other">📦 Прочее</option>
-          </select>
-          <button class="btn-primary" id="save-expense-btn">Сохранить</button>
-          <button class="btn-text" id="back-from-expense">← Назад</button>
-        </div>
+      <div class="screen hidden" data-screen="add-expense">
+        <h2>➖ Новая трата</h2>
+        <input type="text" id="expense-desc" placeholder="Что купил?" />
+        <input type="number" id="expense-amount" placeholder="Сумма (₽)" />
+        <select id="expense-category" aria-label="Категория траты">
+          <option value="entertainment">🎮 Развлечения</option>
+          <option value="style">👟 Стиль</option>
+          <option value="food">☕ Кофе с друзьями</option>
+          <option value="education">📚 Образование</option>
+          <option value="other">📦 Прочее</option>
+        </select>
 
         <div class="screen hidden" data-screen="set-goal">
           <h2>🎯 Новая цель</h2>
@@ -225,6 +223,7 @@
         </div>
       </div>
     </div>
+    <!-- ← ЗАКРЫВАЕТ <div class="app" id="app"> -->
 
     <script src="achievements.js"></script>
     <script src="onboarding.js"></script>
