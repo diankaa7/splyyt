@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>splyt — Твой финансовый супер-апгрейд</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <!-- Онбординг -->
+      <div
+        class="screen hidden"
+        data-screen="onboarding"
+        id="onboarding-screen"
+      >
+        <div class="onboarding-slide active" data-index="0">
+          <h2>💰 Твои деньги — твой проект</h2>
+          <p>Забудь про скучные таблицы. Здесь всё по-другому.</p>
+        </div>
+        <div class="onboarding-slide" data-index="1">
+          <h2>🎯 Строй цели — как в играх</h2>
+          <p>Скейт, кроссы, курс по Python — разбей на шаги и достигай.</p>
+        </div>
+        <div class="onboarding-slide" data-index="2">
+          <h2>🏆 Прокачивай финансовый уровень</h2>
+          <p>Стань Хранителем, Стратегом или Ниндзя!</p>
+        </div>
+        <div class="onboarding-controls">
+          <div class="dots">
+            <span class="dot active" data-dot="0"></span>
+            <span class="dot" data-dot="1"></span>
+            <span class="dot" data-dot="2"></span>
+          </div>
+          <button class="btn-primary" id="onboarding-next">Далее</button>
+          <button class="btn-text skip-btn" id="onboarding-skip">
+            Пропустить
+          </button>
+        </div>
+      </div>
+
+      <!-- Приветствие -->
+      <div class="screen hidden" data-screen="welcome" id="welcome-screen">
+        <h1 class="fade-in">Привет, splytsy! 👋</h1>
+        <p class="fade-in delay-1">Твои деньги — твой самый крутой проект.</p>
+        <button class="btn-primary fade-in delay-2" id="start-btn">
+          Запустить splyt
+        </button>
+      </div>
+
+      <!-- Дашборд -->
+      <div class="screen hidden" data-screen="dashboard" id="dashboard-screen">
+        <div class="header">
+          <h2>splyt</h2>
+          <div class="profile-preview">
+            <span id="current-avatar">🙂</span>
+            <div class="profile-badge" id="level-badge">Новичок</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="total-income">0 ₽</div>
+            <div class="stat-label">Доход</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="total-expense">0 ₽</div>
+            <div class="stat-label">Траты</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="balance">0 ₽</div>
+            <div class="stat-label">Остаток</div>
+          </div>
+        </div>
+
+        <div class="progress-card" id="goal-card">
+          <h3>🎯 Твоя цель</h3>
+          <p id="goal-title">—</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="goal-progress"></div>
+          </div>
+          <p class="progress-text" id="goal-percent">0%</p>
+        </div>
+
+        <div class="progress-card" id="chart-card">
+          <h3>📈 Твои траты</h3>
+          <canvas id="expense-chart" height="200"></canvas>
+          <!-- Легенда будет вставлена скриптом -->
+        </div>
+
+        <div class="actions">
+          <button class="btn-secondary" id="add-income-btn">➕ Доход</button>
+          <button class="btn-secondary" id="add-expense-btn">➖ Трата</button>
+          <button class="btn-secondary" id="set-goal-btn">🎯 Цель</button>
+          <button class="btn-secondary" id="learn-btn">🧠 Фин-Тикток</button>
+          <button class="btn-secondary" id="profile-btn">👤 Профиль</button>
+          <button class="btn-secondary" id="shop-btn">✨ Магазин</button>
+        </div>
+      </div>
+
+      <!-- Формы (доход, трата, цель, обучение) -->
+      <div class="screen hidden" data-screen="add-income">
+        <h2>➕ Новый доход</h2>
+        <input type="text" id="income-source" placeholder="Откуда деньги?" />
+        <input type="number" id="income-amount" placeholder="Сумма (₽)" />
+        <button class="btn-primary" id="save-income-btn">Сохранить</button>
+        <button class="btn-text" id="back-from-income">← Назад</button>
+      </div>
+
+      <div class="screen hidden" data-screen="add-expense">
+        <h2>➖ Новая трата</h2>
+        <input type="text" id="expense-desc" placeholder="Что купил?" />
+        <input type="number" id="expense-amount" placeholder="Сумма (₽)" />
+        <select id="expense-category" aria-label="Категория траты">
+          <option value="entertainment">🎮 Развлечения</option>
+          <option value="style">👟 Стиль</option>
+          <option value="food">☕ Кофе с друзьями</option>
+          <option value="education">📚 Образование</option>
+          <option value="other">📦 Прочее</option>
+        </select>
+        <button class="btn-primary" id="save-expense-btn">Сохранить</button>
+        <button class="btn-text" id="back-from-expense">← Назад</button>
+      </div>
+
+      <div class="screen hidden" data-screen="set-goal">
+        <h2>🎯 Новая цель</h2>
+        <input type="text" id="goal-name" placeholder="Что хочешь купить?" />
+        <input
+          type="number"
+          id="goal-amount"
+          placeholder="Сколько нужно (₽)?"
+        />
+        <button class="btn-primary" id="save-goal-btn">Создать</button>
+        <button class="btn-text" id="back-from-goal">← Назад</button>
+      </div>
+
+      <div class="screen hidden" data-screen="learn">
+        <h2>🧠 Фин-Тикток</h2>
+        <div class="learn-card">
+          <h3>Что такое кэшбэк?</h3>
+          <p>
+            Это возврат части денег за покупку. Как будто магазин говорит:
+            «Спасибо, вот тебе подарок!»
+          </p>
+        </div>
+        <div class="learn-card">
+          <h3>Инфляция простыми словами</h3>
+          <p>
+            Каждый год цены растут. Жвачка за 10₽ сегодня — это как 7₽ вчера.
+            Деньги «теряют вес».
+          </p>
+        </div>
+        <button class="btn-text" id="back-from-learn">← Назад</button>
+      </div>
+
+      <!-- Профиль -->
+      <div class="screen hidden" data-screen="profile" id="profile-screen">
+        <h2>👤 Твой профиль</h2>
+        <div class="profile-header">
+          <span id="profile-avatar">🙂</span>
+          <div>
+            <div class="profile-level" id="profile-level">Новичок</div>
+            <div class="profile-xp">XP: <span id="profile-xp">0</span></div>
+          </div>
+        </div>
+
+        <h3>🏆 Твои ачивки</h3>
+        <div class="achievements-list" id="achievements-list">
+          <p>Пока нет ачивок. Начни добавлять доходы и цели!</p>
+        </div>
+        <button class="btn-text" id="back-from-profile">← Назад</button>
+      </div>
+
+      <!-- Магазин -->
+      <div class="screen hidden" data-screen="shop" id="shop-screen">
+        <h2>✨ Магазин</h2>
+        <div class="shop-item" data-item="avatar-sunglasses">
+          <div class="shop-avatar">🕶️</div>
+          <div>
+            <h3>Крутые очки</h3>
+            <p>50 ⭐</p>
+          </div>
+          <button
+            class="btn-primary buy-btn"
+            data-item="avatar-sunglasses"
+            data-price="50"
+          >
+            Купить
+          </button>
+        </div>
+        <div class="shop-item" data-item="avatar-rocket">
+          <div class="shop-avatar">🚀</div>
+          <div>
+            <h3>Ракета</h3>
+            <p>100 ⭐</p>
+          </div>
+          <button
+            class="btn-primary buy-btn"
+            data-item="avatar-rocket"
+            data-price="100"
+          >
+            Купить
+          </button>
+        </div>
+        <button class="btn-text" id="back-from-shop">← Назад</button>
+      </div>
+    </div>
+
+    <script src="achievements.js"></script>
+    <script src="onboarding.js"></script>
+    <script src="chart.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
