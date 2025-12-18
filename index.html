@@ -93,121 +93,136 @@
           <!-- Легенда будет вставлена скриптом -->
         </div>
 
-        <div class="actions">
-          <button class="btn-secondary" id="add-income-btn">➕ Доход</button>
-          <button class="btn-secondary" id="add-expense-btn">➖ Трата</button>
-          <button class="btn-secondary" id="set-goal-btn">🎯 Цель</button>
-          <button class="btn-secondary" id="learn-btn">🧠 Фин-Тикток</button>
-          <button class="btn-secondary" id="profile-btn">👤 Профиль</button>
-          <button class="btn-secondary" id="shop-btn">✨ Магазин</button>
-        </div>
-      </div>
-
-      <!-- Формы (доход, трата, цель, обучение) -->
-      <div class="screen hidden" data-screen="add-income">
-        <h2>➕ Новый доход</h2>
-        <input type="text" id="income-source" placeholder="Откуда деньги?" />
-        <input type="number" id="income-amount" placeholder="Сумма (₽)" />
-        <button class="btn-primary" id="save-income-btn">Сохранить</button>
-        <button class="btn-text" id="back-from-income">← Назад</button>
-      </div>
-
-      <div class="screen hidden" data-screen="add-expense">
-        <h2>➖ Новая трата</h2>
-        <input type="text" id="expense-desc" placeholder="Что купил?" />
-        <input type="number" id="expense-amount" placeholder="Сумма (₽)" />
-        <select id="expense-category" aria-label="Категория траты">
-          <option value="entertainment">🎮 Развлечения</option>
-          <option value="style">👟 Стиль</option>
-          <option value="food">☕ Кофе с друзьями</option>
-          <option value="education">📚 Образование</option>
-          <option value="other">📦 Прочее</option>
-        </select>
-        <button class="btn-primary" id="save-expense-btn">Сохранить</button>
-        <button class="btn-text" id="back-from-expense">← Назад</button>
-      </div>
-
-      <div class="screen hidden" data-screen="set-goal">
-        <h2>🎯 Новая цель</h2>
-        <input type="text" id="goal-name" placeholder="Что хочешь купить?" />
-        <input
-          type="number"
-          id="goal-amount"
-          placeholder="Сколько нужно (₽)?"
-        />
-        <button class="btn-primary" id="save-goal-btn">Создать</button>
-        <button class="btn-text" id="back-from-goal">← Назад</button>
-      </div>
-
-      <div class="screen hidden" data-screen="learn">
-        <h2>🧠 Фин-Тикток</h2>
-        <div class="learn-card">
-          <h3>Что такое кэшбэк?</h3>
-          <p>
-            Это возврат части денег за покупку. Как будто магазин говорит:
-            «Спасибо, вот тебе подарок!»
-          </p>
-        </div>
-        <div class="learn-card">
-          <h3>Инфляция простыми словами</h3>
-          <p>
-            Каждый год цены растут. Жвачка за 10₽ сегодня — это как 7₽ вчера.
-            Деньги «теряют вес».
-          </p>
-        </div>
-        <button class="btn-text" id="back-from-learn">← Назад</button>
-      </div>
-
-      <!-- Профиль -->
-      <div class="screen hidden" data-screen="profile" id="profile-screen">
-        <h2>👤 Твой профиль</h2>
-        <div class="profile-header">
-          <span id="profile-avatar">🙂</span>
-          <div>
-            <div class="profile-level" id="profile-level">Новичок</div>
-            <div class="profile-xp">XP: <span id="profile-xp">0</span></div>
-          </div>
-        </div>
-
-        <h3>🏆 Твои ачивки</h3>
-        <div class="achievements-list" id="achievements-list">
-          <p>Пока нет ачивок. Начни добавлять доходы и цели!</p>
-        </div>
-        <button class="btn-text" id="back-from-profile">← Назад</button>
-      </div>
-
-      <!-- Магазин -->
-      <div class="screen hidden" data-screen="shop" id="shop-screen">
-        <h2>✨ Магазин</h2>
-        <div class="shop-item" data-item="avatar-sunglasses">
-          <div class="shop-avatar">🕶️</div>
-          <div>
-            <h3>Крутые очки</h3>
-            <p>50 ⭐</p>
-          </div>
-          <button
-            class="btn-primary buy-btn"
-            data-item="avatar-sunglasses"
-            data-price="50"
-          >
-            Купить
+        <!-- Нижняя панель навигации -->
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="income">
+            <span>➕</span>
+            <span class="tab-label">Доход</span>
+          </button>
+          <button class="tab-btn" data-tab="expense">
+            <span>➖</span>
+            <span class="tab-label">Трата</span>
+          </button>
+          <button class="tab-btn" data-tab="goal">
+            <span>🎯</span>
+            <span class="tab-label">Цель</span>
+          </button>
+          <button class="tab-btn" data-tab="profile">
+            <span>👤</span>
+            <span class="tab-label">Профиль</span>
+          </button>
+          <button class="tab-btn" data-tab="shop">
+            <span>✨</span>
+            <span class="tab-label">Магазин</span>
           </button>
         </div>
-        <div class="shop-item" data-item="avatar-rocket">
-          <div class="shop-avatar">🚀</div>
-          <div>
-            <h3>Ракета</h3>
-            <p>100 ⭐</p>
-          </div>
-          <button
-            class="btn-primary buy-btn"
-            data-item="avatar-rocket"
-            data-price="100"
-          >
-            Купить
-          </button>
+
+        <!-- Формы (доход, трата, цель, обучение) -->
+        <div class="screen hidden" data-screen="add-income">
+          <h2>➕ Новый доход</h2>
+          <input type="text" id="income-source" placeholder="Откуда деньги?" />
+          <input type="number" id="income-amount" placeholder="Сумма (₽)" />
+          <button class="btn-primary" id="save-income-btn">Сохранить</button>
+          <button class="btn-text" id="back-from-income">← Назад</button>
         </div>
-        <button class="btn-text" id="back-from-shop">← Назад</button>
+
+        <div class="screen hidden" data-screen="add-expense">
+          <h2>➖ Новая трата</h2>
+          <input type="text" id="expense-desc" placeholder="Что купил?" />
+          <input type="number" id="expense-amount" placeholder="Сумма (₽)" />
+          <select id="expense-category" aria-label="Категория траты">
+            <option value="entertainment">🎮 Развлечения</option>
+            <option value="style">👟 Стиль</option>
+            <option value="food">☕ Кофе с друзьями</option>
+            <option value="education">📚 Образование</option>
+            <option value="other">📦 Прочее</option>
+          </select>
+          <button class="btn-primary" id="save-expense-btn">Сохранить</button>
+          <button class="btn-text" id="back-from-expense">← Назад</button>
+        </div>
+
+        <div class="screen hidden" data-screen="set-goal">
+          <h2>🎯 Новая цель</h2>
+          <input type="text" id="goal-name" placeholder="Что хочешь купить?" />
+          <input
+            type="number"
+            id="goal-amount"
+            placeholder="Сколько нужно (₽)?"
+          />
+          <button class="btn-primary" id="save-goal-btn">Создать</button>
+          <button class="btn-text" id="back-from-goal">← Назад</button>
+        </div>
+
+        <div class="screen hidden" data-screen="learn">
+          <h2>🧠 spycard</h2>
+          <div class="learn-card">
+            <h3>Что такое кэшбэк?</h3>
+            <p>
+              Это возврат части денег за покупку. Как будто магазин говорит:
+              «Спасибо, вот тебе подарок!»
+            </p>
+          </div>
+          <div class="learn-card">
+            <h3>Инфляция простыми словами</h3>
+            <p>
+              Каждый год цены растут. Жвачка за 10₽ сегодня — это как 7₽ вчера.
+              Деньги «теряют вес».
+            </p>
+          </div>
+          <button class="btn-text" id="back-from-learn">← Назад</button>
+        </div>
+
+        <!-- Профиль -->
+        <div class="screen hidden" data-screen="profile" id="profile-screen">
+          <h2>👤 Твой профиль</h2>
+          <div class="profile-header">
+            <span id="profile-avatar">🙂</span>
+            <div>
+              <div class="profile-level" id="profile-level">Новичок</div>
+              <div class="profile-xp">XP: <span id="profile-xp">0</span></div>
+            </div>
+          </div>
+
+          <h3>🏆 Твои ачивки</h3>
+          <div class="achievements-list" id="achievements-list">
+            <p>Пока нет ачивок. Начни добавлять доходы и цели!</p>
+          </div>
+          <button class="btn-text" id="back-from-profile">← Назад</button>
+        </div>
+
+        <!-- Магазин -->
+        <div class="screen hidden" data-screen="shop" id="shop-screen">
+          <h2>✨ Магазин</h2>
+          <div class="shop-item" data-item="avatar-sunglasses">
+            <div class="shop-avatar">🕶️</div>
+            <div>
+              <h3>Крутые очки</h3>
+              <p>50 ⭐</p>
+            </div>
+            <button
+              class="btn-primary buy-btn"
+              data-item="avatar-sunglasses"
+              data-price="50"
+            >
+              Купить
+            </button>
+          </div>
+          <div class="shop-item" data-item="avatar-rocket">
+            <div class="shop-avatar">🚀</div>
+            <div>
+              <h3>Ракета</h3>
+              <p>100 ⭐</p>
+            </div>
+            <button
+              class="btn-primary buy-btn"
+              data-item="avatar-rocket"
+              data-price="100"
+            >
+              Купить
+            </button>
+          </div>
+          <button class="btn-text" id="back-from-shop">← Назад</button>
+        </div>
       </div>
     </div>
 
