@@ -6,8 +6,7 @@ const ACHIEVEMENTS = {
     name: "Целеустремлённый",
     desc: "Поставил первую финансовую цель!",
   },
-};
-
+}
 function unlockAchievement(id) {
   if (!userData.achievements.includes(id)) {
     userData.achievements.push(id);
@@ -46,3 +45,4 @@ function checkAchievements() {
     if (daysSince >= 7) unlockAchievement("week-no-spend");
   }
 }
+
