@@ -1,0 +1,261 @@
+[
+  {
+    "level": 1,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "Анна",
+        "requirements": {"pepperoni": 2},
+        "sauce_required": true,
+        "cheese_required": true,
+        "time_limit": 60,
+        "reward": 20,
+        "penalty": 5,
+        "mood": "neutral"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Михаил",
+        "requirements": {"lettuce": 2, "tomato": 2},
+        "patty_type": "beef",
+        "time_limit": 50,
+        "reward": 18,
+        "penalty": 5,
+        "mood": "impatient"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "София",
+        "drink_type": "cola",
+        "drink_size": "medium",
+        "ice_required": true,
+        "time_limit": 40,
+        "reward": 15,
+        "penalty": 5,
+        "mood": "happy"
+      }
+    ]
+  },
+  {
+    "level": 2,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "Алексей",
+        "requirements": {"peppers": 4},
+        "sauce_required": true,
+        "cheese_required": true,
+        "time_limit": 55,
+        "reward": 22,
+        "penalty": 6,
+        "mood": "neutral"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Екатерина",
+        "requirements": {"lettuce": 2, "tomato": 2, "cheese": 1},
+        "patty_type": "chicken",
+        "time_limit": 65,
+        "reward": 25,
+        "penalty": 6,
+        "mood": "picky"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "Дмитрий",
+        "drink_type": "sprite",
+        "drink_size": "large",
+        "ice_required": false,
+        "time_limit": 45,
+        "reward": 18,
+        "penalty": 6,
+        "mood": "impatient"
+      }
+    ]
+  },
+  {
+    "level": 3,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "Ольга",
+        "requirements": {"onions": 3, "mushrooms": 2},
+        "sauce_required": true,
+        "cheese_required": true,
+        "time_limit": 60,
+        "reward": 30,
+        "penalty": 7,
+        "mood": "generous"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Иван",
+        "requirements": {"lettuce": 2, "tomato": 2, "onions": 2},
+        "patty_type": "beef",
+        "time_limit": 70,
+        "reward": 28,
+        "penalty": 7,
+        "mood": "neutral"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "Мария",
+        "drink_type": "orange",
+        "drink_size": "medium",
+        "ice_required": true,
+        "time_limit": 50,
+        "reward": 20,
+        "penalty": 7,
+        "mood": "happy"
+      }
+    ]
+  },
+  {
+    "level": 4,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "Сергей",
+        "requirements": {"olives": 4, "tomato": 2},
+        "sauce_required": true,
+        "cheese_required": false,
+        "time_limit": 70,
+        "reward": 35,
+        "penalty": 8,
+        "mood": "generous"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Анна",
+        "requirements": {"lettuce": 2, "tomato": 2, "pickles": 2},
+        "patty_type": "beef",
+        "time_limit": 75,
+        "reward": 32,
+        "penalty": 8,
+        "mood": "picky"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "Михаил",
+        "drink_type": "coffee",
+        "drink_size": "medium",
+        "ice_required": false,
+        "time_limit": 55,
+        "reward": 25,
+        "penalty": 8,
+        "mood": "impatient"
+      }
+    ]
+  },
+  {
+    "level": 5,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "София",
+        "requirements": {"sausage": 3, "peppers": 2, "onions": 2},
+        "sauce_required": true,
+        "cheese_required": true,
+        "time_limit": 75,
+        "reward": 40,
+        "penalty": 9,
+        "mood": "happy"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Алексей",
+        "requirements": {"lettuce": 2, "tomato": 2, "bacon": 2},
+        "patty_type": "beef",
+        "time_limit": 80,
+        "reward": 38,
+        "penalty": 9,
+        "mood": "neutral"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "Екатерина",
+        "drink_type": "tea",
+        "drink_size": "large",
+        "ice_required": false,
+        "time_limit": 60,
+        "reward": 28,
+        "penalty": 9,
+        "mood": "generous"
+      }
+    ]
+  },
+  {
+    "level": 6,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "Дмитрий",
+        "requirements": {"basil": 2, "tomato": 3, "olives": 2},
+        "sauce_required": true,
+        "cheese_required": true,
+        "time_limit": 80,
+        "reward": 45,
+        "penalty": 10,
+        "mood": "picky"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Ольга",
+        "requirements": {"lettuce": 2, "tomato": 2, "mayonnaise": 1},
+        "patty_type": "chicken",
+        "time_limit": 85,
+        "reward": 42,
+        "penalty": 10,
+        "mood": "generous"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "Иван",
+        "drink_type": "juice",
+        "drink_size": "medium",
+        "ice_required": true,
+        "time_limit": 65,
+        "reward": 30,
+        "penalty": 10,
+        "mood": "happy"
+      }
+    ]
+  },
+  {
+    "level": 7,
+    "orders": [
+      {
+        "order_type": "pizza",
+        "customer_name": "Мария",
+        "requirements": {"pineapple": 4, "ham": 3},
+        "sauce_required": true,
+        "cheese_required": true,
+        "time_limit": 90,
+        "reward": 50,
+        "penalty": 12,
+        "mood": "generous"
+      },
+      {
+        "order_type": "burger",
+        "customer_name": "Сергей",
+        "requirements": {"lettuce": 2, "tomato": 2, "ketchup": 1, "mayonnaise": 1},
+        "patty_type": "beef",
+        "time_limit": 95,
+        "reward": 48,
+        "penalty": 12,
+        "mood": "neutral"
+      },
+      {
+        "order_type": "drink",
+        "customer_name": "Анна",
+        "drink_type": "coffee",
+        "drink_size": "large",
+        "ice_required": false,
+        "time_limit": 70,
+        "reward": 35,
+        "penalty": 12,
+        "mood": "picky"
+      }
+    ]
+  }
+]
