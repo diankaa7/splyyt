@@ -2,7 +2,7 @@ import arcade
 from game import FastFoodGame
 
 def main():
-    window = FastFoodGame(1920, 1080, "MAK")
+    window = FastFoodGame(1280, 720, "MAK")
     window.setup()
     arcade.run()
 

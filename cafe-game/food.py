@@ -2,7 +2,6 @@ import os
 import arcade
 from utils import load_texture, get_texture_display_size
 
-# Русские названия ингредиентов для отображения
 INGREDIENT_NAMES_RU = {
     "burger_base": "Низ булки",
     "burger_patty": "Котлета",
@@ -14,10 +13,7 @@ INGREDIENT_NAMES_RU = {
     "drink_cola": "Кола",
     "drink_water": "Вода",
 }
-
-
 class FoodItem:
-    # Целевой размер отрисовки ингредиента (любое разрешение картинки масштабируется под него)
     DEFAULT_DISPLAY_SIZE = 64
 
     def __init__(self, name, texture_path, position, scale=0.6, display_size=None):
@@ -27,7 +23,6 @@ class FoodItem:
         self.center_y = position[1]
         target = display_size if display_size is not None else self.DEFAULT_DISPLAY_SIZE
         self.width, self.height = get_texture_display_size(self.texture, target, target)
-        # Для обратной совместимости: scale дополнительно уменьшает/увеличивает
         if scale != 1.0:
             self.width = max(1, int(self.width * scale))
             self.height = max(1, int(self.height * scale))
@@ -48,16 +43,13 @@ class FoodItem:
                 arcade.play_sound(arcade.load_sound("sounds/cooking.wav"))
 
     def draw(self):
-        # Draw background rectangle for visibility (more prominent)
         bg_rect = arcade.types.XYWH(self.center_x, self.center_y, self.width + 20, self.height + 20)
         arcade.draw_rect_filled(bg_rect, arcade.color.LIGHT_BLUE)
         arcade.draw_rect_outline(bg_rect, arcade.color.DARK_BLUE, 3)
         
-        # Draw the item texture
         rect = arcade.types.XYWH(self.center_x, self.center_y, self.width, self.height)
         arcade.draw_texture_rect(self.texture, rect)
         
-        # Draw label below the item (more visible)
         label = INGREDIENT_NAMES_RU.get(self.name, self.name.replace("_", " ").title())
         arcade.draw_text(
             label,
@@ -74,10 +66,7 @@ class FoodItem:
             outline_rect = arcade.types.XYWH(self.center_x, bar_y, self.width, 8)
             arcade.draw_rect_filled(filled_rect, arcade.color.GREEN)
             arcade.draw_rect_outline(outline_rect, arcade.color.BLACK)
-
-
 class FoodManager:
-    # Позиции ингредиентов в окне кухни (подальше друг от друга). Используются для отрисовки и для проверки кликов.
     COOKING_VIEW_POSITIONS = [
         ("burger_base", (120, 520)),
         ("burger_patty", (240, 520)),
@@ -89,17 +78,14 @@ class FoodManager:
         ("drink_cola", (480, 400)),
         ("drink_water", (600, 400)),
     ]
-    # Радиус клика по ингредиенту (пиксели)
     INGREDIENT_CLICK_RADIUS = 50
 
-    # Оборудование в окне кухни: (center_x, center_y, width, height, id) — интервал 160px, чтобы кнопки не накладывались
     EQUIPMENT_AREAS = [
         (400, 280, 140, 140, "grill"),
         (560, 280, 140, 140, "fryer"),
         (720, 280, 140, 140, "ice_cream_machine"),
         (880, 280, 140, 140, "soda_tap"),
     ]
-    # Панель «Готово к подаче»: центр X, верх Y, ширина, высота строки, размер кнопки [X]
     PREPARED_PANEL_CX = 1200
     PREPARED_PANEL_TOP = 520
     PREPARED_PANEL_WIDTH = 220
@@ -118,8 +104,6 @@ class FoodManager:
         self.setup_inventory()
 
     def setup_inventory(self):
-        # Position ingredients in bottom-left area, organized in rows
-        # Row 1 (top): burger ingredients; Row 2: fries, ice cream, drinks
         ingredients = [
             ("burger_base", "images/burger_base.png", (70, 140)),
             ("burger_patty", "images/burger_patty.png", (140, 140)),
@@ -133,7 +117,7 @@ class FoodManager:
         ]
 
         for name, path, position in ingredients:
-            item = FoodItem(name, path, position, 0.6)  # Increased scale for better visibility
+            item = FoodItem(name, path, position, 0.6)
             item.center_x = position[0]
             item.center_y = position[1]
             self.inventory[name] = item
@@ -144,7 +128,6 @@ class FoodManager:
         self.icecream = None
         self.drink = None
         self.equipped_items = {}
-        # Ensure we are back in the main gameplay frame
         self.game.show_cooking_frame = False
 
     def select_ingredient(self, category):
@@ -160,7 +143,6 @@ class FoodManager:
     def start_cooking_fries(self):
         self.fries = FoodItem("fries", "images/fries_raw.png", (540, 400))
         self.fries.start_preparing(3.0)
-        # Switch to dedicated cooking frame while fries are preparing
         self.game.show_cooking_frame = True
 
     def add_burger_ingredient(self, ingredient):
@@ -183,7 +165,6 @@ class FoodManager:
         self.drink.is_prepared = True
 
     def check_prepared_panel_click(self, x, y):
-        """Обработка клика по панели «Готово к подаче» (удаление пункта). Возвращает True если клик обработан."""
         lst = self.get_prepared_list()
         if not lst:
             return False
@@ -201,7 +182,6 @@ class FoodManager:
         return False
 
     def _draw_complete_burger(self, center_x, center_y, size=70, assembly=None):
-        """Рисует собранный бургер: если есть images/burger_complete.png — одна картинка, иначе слои друг на друге."""
         complete_path = "images/burger_complete.png"
         if os.path.exists(complete_path):
             tex = load_texture(complete_path)
@@ -220,7 +200,6 @@ class FoodManager:
     def check_equipment_click(self, x, y):
         if self.check_prepared_panel_click(x, y):
             return
-        # Проверка клика по ингредиентам — используем позиции из окна кухни
         r = self.INGREDIENT_CLICK_RADIUS
         for name, (cx, cy) in self.COOKING_VIEW_POSITIONS:
             if name not in self.inventory:
@@ -239,7 +218,6 @@ class FoodManager:
                     self.prepare_drink(drink_type)
                 return
 
-        # Проверка клика по оборудованию
         for area in self.EQUIPMENT_AREAS:
             ax, ay, aw, ah, aid = area
             if (ax - aw / 2 <= x <= ax + aw / 2 and
@@ -272,7 +250,6 @@ class FoodManager:
         return items
 
     def get_prepared_list(self):
-        """Список (key, label) для отображения в панели «Готово к подаче»."""
         result = []
         if "burger" in self.equipped_items:
             result.append(("burger", "Бургер"))
@@ -287,7 +264,6 @@ class FoodManager:
         return result
 
     def remove_from_prepared(self, key):
-        """Убрать блюдо из списка приготовленного."""
         if key == "burger" and "burger" in self.equipped_items:
             del self.equipped_items["burger"]
         elif key == "fries" and "fries" in self.equipped_items:
@@ -298,36 +274,30 @@ class FoodManager:
             self.drink = None
 
     def _is_burger_complete(self):
-        """Бургер собран полностью (есть база, минимум один слой и верх)."""
         a = self.burger_assembly
         return len(a) >= 2 and a[0] == "base" and a[-1] == "top"
 
     def update(self, delta_time):
         self.fries.update(delta_time)
-        # Don't auto-exit cooking frame - let user stay in kitchen
         if self.icecream:
             self.icecream.update(delta_time)
         if self.drink:
             self.drink.update(delta_time)
 
     def draw(self):
-        # Draw inventory panel background (bottom-left area, wider)
         inventory_bg = arcade.types.XYWH(200, 110, 360, 90)
         arcade.draw_rect_filled(inventory_bg, (200, 200, 200, 240))
         arcade.draw_rect_outline(inventory_bg, arcade.color.BLACK, 3)
         
-        # Draw title
         arcade.draw_text(
             "ИНГРЕДИЕНТЫ (нажмите для использования)",
             200, 180,
             arcade.color.BLACK, 15, anchor_x="center", bold=True
         )
         
-        # Draw inventory items
         for item in self.inventory.values():
             item.draw()
 
-        # Draw equipment labels with backgrounds for visibility (below equipment)
         equipment_labels = [
             (400, 200, "ГРИЛЬ\n(Бургер)"),
             (560, 200, "ФРИТЮР\n(Картошка)"),
@@ -335,12 +305,10 @@ class FoodManager:
             (880, 200, "НАПИТКИ")
         ]
         for x, y, label in equipment_labels:
-            # Draw background for text
             text_bg = arcade.types.XYWH(x, y, 110, 35)
             arcade.draw_rect_filled(text_bg, (0, 0, 0, 200))
             arcade.draw_rect_outline(text_bg, arcade.color.YELLOW, 2)
             
-            # Draw text
             lines = label.split('\n')
             for i, line in enumerate(lines):
                 arcade.draw_text(
@@ -357,7 +325,6 @@ class FoodManager:
             self.drink.draw()
 
         if self.burger_assembly:
-            # Draw burger assembly area (center-left, above equipment, выше)
             assembly_bg = arcade.types.XYWH(400, 580, 120, 120)
             arcade.draw_rect_filled(assembly_bg, (255, 255, 200, 200))
             arcade.draw_rect_outline(assembly_bg, arcade.color.BROWN, 2)
@@ -383,13 +350,10 @@ class FoodManager:
                     y_pos -= 30
 
     def draw_cooking_view(self):
-        """Draw cooking view with all ingredients and equipment visible."""
-        # Draw inventory panel background (left side, larger for cooking view)
         inventory_bg = arcade.types.XYWH(380, 460, 520, 160)
         arcade.draw_rect_filled(inventory_bg, (200, 200, 200, 250))
         arcade.draw_rect_outline(inventory_bg, arcade.color.BLACK, 3)
         
-        # Draw title
         arcade.draw_text(
             "ИНГРЕДИЕНТЫ",
             380, 540,
@@ -401,23 +365,17 @@ class FoodManager:
             arcade.color.DARK_GRAY, 14, anchor_x="center"
         )
         
-        # Draw inventory items (repositioned for cooking view)
         for name, pos in self.COOKING_VIEW_POSITIONS:
             if name in self.inventory:
                 item = self.inventory[name]
-                # Temporarily save original position
                 orig_x, orig_y = item.center_x, item.center_y
-                # Set cooking view position
                 item.center_x, item.center_y = pos
                 item.draw()
-                # Restore original position
                 item.center_x, item.center_y = orig_x, orig_y
 
-        # Draw current cooking items (near equipment) — позиции совпадают с EQUIPMENT_AREAS
         fryer_x, ice_x, drink_x = 560, 720, 880
         zone_y, zone_h = 280, 80
 
-        # Fries (fryer)
         fries_bg = arcade.types.XYWH(fryer_x, zone_y - 20, 140, 100)
         arcade.draw_rect_filled(fries_bg, (100, 100, 100, 220))
         arcade.draw_rect_outline(fries_bg, arcade.color.ORANGE, 2)
@@ -433,7 +391,6 @@ class FoodManager:
         else:
             arcade.draw_text("Нажмите фритюр для старта", fryer_x, zone_y - 60, arcade.color.WHITE, 14, anchor_x="center")
 
-        # Ice cream
         icecream_bg = arcade.types.XYWH(ice_x, zone_y - 20, 140, 100)
         arcade.draw_rect_filled(icecream_bg, (200, 200, 255, 200))
         arcade.draw_rect_outline(icecream_bg, arcade.color.BLUE, 2)
@@ -447,7 +404,6 @@ class FoodManager:
             arcade.draw_text("Нажмите мороженое", ice_x, zone_y - 30, arcade.color.BLUE, 14, anchor_x="center")
             arcade.draw_text("для приготовления", ice_x, zone_y - 48, arcade.color.BLUE, 12, anchor_x="center")
 
-        # Drink
         drink_bg = arcade.types.XYWH(drink_x, zone_y - 20, 140, 100)
         arcade.draw_rect_filled(drink_bg, (200, 255, 200, 200))
         arcade.draw_rect_outline(drink_bg, arcade.color.GREEN, 2)
@@ -461,7 +417,6 @@ class FoodManager:
             arcade.draw_text("Нажмите напиток", drink_x, zone_y - 30, arcade.color.GREEN, 14, anchor_x="center")
             arcade.draw_text("для приготовления", drink_x, zone_y - 48, arcade.color.GREEN, 12, anchor_x="center")
 
-        # Draw burger assembly area (над грилем, выше). Собранный бургер — одна картинка burger_complete.png
         grill_x = 400
         if self.burger_assembly:
             assembly_bg = arcade.types.XYWH(grill_x, 580, 150, 150)
@@ -483,7 +438,6 @@ class FoodManager:
                     arcade.draw_texture_rect(texture, rect)
                     y_pos -= 35
 
-        # Панель «Готово к подаче» — полный список и кнопки убрать
         cx, top, width, row_h = self.PREPARED_PANEL_CX, self.PREPARED_PANEL_TOP, self.PREPARED_PANEL_WIDTH, self.PREPARED_ROW_HEIGHT
         lst = self.get_prepared_list()
         panel_h = max(80, len(lst) * row_h + 50)

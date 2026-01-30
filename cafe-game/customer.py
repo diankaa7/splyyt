@@ -5,7 +5,6 @@ from utils import get_texture_display_size
 
 
 class Customer:
-    # Опциональные текстуры по настроению (любое разрешение масштабируется под body_size)
     TEXTURE_PATHS = {
         "idle": "images/customer_idle.png",
         "happy": "images/customer_happy.png",
@@ -24,12 +23,11 @@ class Customer:
         self.max_wait = self.calculate_max_wait()
         self.order_submitted = False
 
-        # textures: dict mood -> texture (если None, рисуем фигурами)
         self._textures = textures or {}
-        self.body_width = 70
-        self.body_height = 90
-        self.head_radius = 18
-        self.mood = "idle"  # idle | happy | angry
+        self.body_width = 120
+        self.body_height = 150
+        self.head_radius = 28
+        self.mood = "idle"
 
         self._skin_color = arcade.color.BISQUE
         self._outline = arcade.color.BLACK
@@ -86,7 +84,6 @@ class Customer:
             )
             rect = arcade.types.XYWH(x, y, dw, dh)
             arcade.draw_texture_rect(tex, rect)
-            # Индикатор настроения поверх картинки
             head_y = y + self.body_height / 2 + 8
             indicator_y = head_y + 12
             if self.mood == "happy":
@@ -95,7 +92,6 @@ class Customer:
                 arcade.draw_text("!", x, indicator_y, arcade.color.RED, 18, anchor_x="center")
             return
 
-        # Рисуем фигурами, если текстур нет
         arcade.draw_ellipse_filled(x, y - self.body_height / 2 - 8, self.body_width * 0.9, 12, (0, 0, 0, 80))
 
         leg_h = 28
@@ -119,10 +115,8 @@ class Customer:
         arcade.draw_circle_outline(x, head_y, self.head_radius, self._outline, 2)
 
         arm_y = y + self.body_height / 4
-        arcade.draw_line(x - self.body_width / 2, arm_y, x - self.body_width / 2 - 10, arm_y - 8,
-                         self._outline, 3)
-        arcade.draw_line(x + self.body_width / 2, arm_y, x + self.body_width / 2 + 10, arm_y - 8,
-                         self._outline, 3)
+        arcade.draw_line(x - self.body_width / 2, arm_y, x - self.body_width / 2 - 10, arm_y - 8, self._outline, 3)
+        arcade.draw_line(x + self.body_width / 2, arm_y, x + self.body_width / 2 + 10, arm_y - 8, self._outline, 3)
 
         eye_dx = 6
         eye_y = head_y + 4
@@ -155,7 +149,6 @@ class Customer:
 
 
 def _load_customer_textures():
-    """Загружает текстуры посетителей (idle/happy/angry). Любое разрешение — масштабируется при отрисовке."""
     from utils import load_texture
     textures = {}
     for mood, path in Customer.TEXTURE_PATHS.items():

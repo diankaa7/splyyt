@@ -12,7 +12,6 @@ class Order:
         self.max_time = self.calculate_max_time()
         self.completed = False
         self.success = False
-        # Позиция карточки заказа: правый верхний угол экрана
         card_width, card_height = 280, 130
         margin_right, margin_top = 24, 90
         self.x = game.width - margin_right - card_width // 2
@@ -77,7 +76,7 @@ class Order:
         penalty = 0
 
         for item in self.items:
-            if isinstance(item, list):  # Burger
+            if isinstance(item, list):
                 if not prepared_items.get("burger") or not self.validate_burger(item, prepared_items["burger"]):
                     penalty += 30
                 else:
@@ -100,7 +99,6 @@ class Order:
 
         self.success = score > penalty
         if self.success:
-            # Гарантированная награда за выполненный заказ: база + за пункты
             reward = 50 + max(0, score - penalty)
             self.game.money += reward
             self.game.score += reward
@@ -120,7 +118,6 @@ class Order:
 
     @staticmethod
     def _item_label_ru(item):
-        """Русское название пункта заказа."""
         if item == "fries":
             return "Картошка"
         if item == "cola":
@@ -135,7 +132,6 @@ class Order:
 
     @staticmethod
     def format_burger_layers(burger_list):
-        """Форматирует список слоёв бургера для отображения (base, patty, cheese, top -> читаемый текст)."""
         if not burger_list or not isinstance(burger_list, list):
             return "Custom Burger"
         names = []
@@ -201,7 +197,6 @@ class OrderSystem:
         self.game = game
         self.active_orders = []
         self.order_cooldown = 0
-        # Only one active order at a time for strict queue behavior
         self.max_orders = 1
 
     def reset_orders(self):
@@ -210,8 +205,6 @@ class OrderSystem:
 
     def update(self, delta_time):
         self.order_cooldown -= delta_time
-        # Spawn new order only when there are no active orders and no customers,
-        # so clients and orders arrive strictly one by one.
         if (
             self.order_cooldown <= 0
             and len(self.active_orders) < self.max_orders

@@ -45,7 +45,6 @@ class UIManager:
         self.buttons = []
         self.setup_menu_buttons()
 
-    # Расстояние между центрами кнопок (высота кнопки 60 → зазор 80px)
     BUTTON_SPACING = 140
 
     def setup_menu_buttons(self):
@@ -67,7 +66,6 @@ class UIManager:
         self.buttons = [start_btn, exit_btn]
 
     def _apply_menu_button_positions(self, game_over=False):
-        """Задаёт позиции кнопок: на экране Game Over сдвигаем вниз, чтобы не пересекались с текстом."""
         cx = self.game.width // 2
         cy = self.game.height // 2
         if game_over:
@@ -112,8 +110,6 @@ class UIManager:
         return False
 
     def draw_hud(self):
-        """На основном экране: только таблица денег/времени и кнопка перехода на кухню."""
-        # Панель: деньги, счёт, время (слева сверху)
         panel_rect = arcade.types.XYWH(150, 680, 280, 80)
         arcade.draw_rect_filled(panel_rect, arcade.color.DARK_GRAY)
         arcade.draw_rect_outline(panel_rect, arcade.color.BLACK)
@@ -123,7 +119,6 @@ class UIManager:
         time_left = self.game.level_manager.get_time_remaining()
         arcade.draw_text(f"ВРЕМЯ: {time_left}с", 150, 660, arcade.color.RED, 20, anchor_x="center")
 
-        # Кнопка перехода на кухню (справа сверху)
         kitchen_bg = arcade.types.XYWH(1150, 680, 100, 50)
         arcade.draw_rect_filled(kitchen_bg, arcade.color.DARK_GREEN)
         arcade.draw_rect_outline(kitchen_bg, arcade.color.BLACK, 2)
@@ -134,7 +129,6 @@ class UIManager:
         )
 
     def check_hud_click(self, x, y):
-        # Кнопка перехода на кухню (1150, 680, 100x50)
         if (1100 <= x <= 1200) and (655 <= y <= 705):
             self.game.show_cooking_frame = not self.game.show_cooking_frame
             return True

@@ -8,7 +8,7 @@ class Level:
         self.starting_money = 500 + level_number * 200
         self.objective_score = 1000 * level_number
         self.available_ingredients = self.get_available_ingredients()
-        self.time_limit = 180 - level_number * 10  # seconds
+        self.time_limit = 180 - level_number * 10
         self.completed = False
         self.passed = False
 
@@ -29,7 +29,7 @@ class LevelManager:
     def __init__(self, game):
         self.game = game
         self.current_level = None
-        self.elapsed_time = 0.0  # накопленное время уровня в секундах
+        self.elapsed_time = 0.0
 
     def load_level(self, level_number):
         self.current_level = Level(level_number)
